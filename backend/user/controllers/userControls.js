@@ -42,7 +42,15 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (user && (await bcryptjs.compare(password, user.password))) {
-        res.json({ "success": "Logined", "jwtToken": generateToken(user._id) })
+
+        let cookieOptions = {
+            expires: new Date(
+                Date.now() + 1 * 24 * 60 * 60 * 1000
+            ),
+            httpOnly: true,
+        }
+
+        res.cookie('token', generateToken(user._id), cookieOptions).cookie('role', user.role).json({ "success": "Logined", "jwtToken": generateToken(user._id) })
     }
     else {
         res.json({ "error": "Creds are wrong" })
