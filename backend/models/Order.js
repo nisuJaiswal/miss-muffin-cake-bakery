@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const itemSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -14,10 +14,18 @@ const itemSchema = new mongoose.Schema({
         type: Number,
         default: 0.
     },
+    total: {
+        type: Number,
+        default: 0
+    },
+    status: {
+        type: Boolean,
+        default: false
+    },
     date: {
         type: Date,
         default: Date.now(),
     }
 })
-const Item = mongoose.model('Item', itemSchema);
-module.exports = Item;
+const Order = mongoose.model('Order', orderSchema);
+module.exports = Order;
