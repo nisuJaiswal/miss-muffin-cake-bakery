@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
-    firstName: {
+    firstname: {
         type: String,
         required: true,
     },
-    lastName: {
+    lastname: {
         type: String,
         required: true,
     },
@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
         type: String
     },
     allOrders: {
-        type: mongoose.Schema.Types.ObjectId
+        type: Array,
+        default: [],
     }
 })
 

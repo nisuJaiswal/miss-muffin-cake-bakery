@@ -8,9 +8,11 @@ const connectDb = require('./config/connectDb')
 app.use(express.json())
 connectDb();
 
-app.get('/', (req, res) => {
-    res.send("hello from home route")
-})
+// app.get('/', (req, res) => {
+//     res.send("hello from home route")
+// })
+app.use('/api/user', require('./routes/userRoute'))
+
 
 app.listen(PORT, (err) => {
     if (err) return console.log("Error", err);
