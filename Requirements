@@ -1,0 +1,3 @@
+User: firstname, lastname, username, password, email, address, Order(_id)
+Order: Item(_id)
+Item: photo, price, quantity, name, description
