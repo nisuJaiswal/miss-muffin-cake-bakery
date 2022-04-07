@@ -6,6 +6,7 @@ const addItem = async (req, res) => {
 
     const id = req.params.id;
     const addedItem = await Item.findOne({ _id: id });
+    if (!addedItem) return res.json({ error: "Item doesn't exitst" })
     const { name, description, price, quantity } = addedItem
     const addedOrder = await Order.insertMany([{ name, description, price, quantity, total: quantity * price, status: false }])
     res.json({ addedOrder })
@@ -32,15 +33,26 @@ const addItemToDB = async (req, res) => {
 
 // GET REQ --ADMIN 
 const getAllItems = async (req, res) => {
-    const allItems = await Item.find({})
-    res.json({ allItems })
+    if (req.cookies.role === 'admin') {
+        const allItems = await Item.find({})
+        res.json({ allItems })
+    }
+    else {
+        res.json({ msg: "You are not admin" })
+    }
 }
 
 // DEL REQ -- ADMIN
 const deleteItem = async (req, res) => {
-    const { id } = req.params;
+    if (req.cookies.role === 'admin') {
 
-    const deleted = await Item.findByIdAndDelete({ _id: id })
-    res.json({ deleted })
+        const { id } = req.params;
+
+        const deleted = await Item.findByIdAndDelete({ _id: id })
+        res.json({ deleted })
+    }
+    else {
+        res.json({ msg: "You are not admin" })
+    }
 }
 module.exports = { addItem, addItemToDB, getAllItems, deleteItem };

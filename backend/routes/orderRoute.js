@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const { addItem, addItemToDB, getAllItems, deleteItem } = require('../controllers/orderControls')
+const { addItem, addItemToDB, getAllItems, deleteItem } = require('../controllers/orderControls');
+const { userAuth } = require('../middleware/userAuth');
 
 
 // POST REQ
-// GENERATED EACH TIME WHEN USER CLICKS ON + ICON
-router.post('/additemtodatabase', addItemToDB)
-router.get('/getAllItems', getAllItems)
-router.post('/:id', addItem)
-router.delete('/:id', deleteItem)
+router.post('/additemtodatabase', userAuth, addItemToDB)
+router.get('/getAllItems', userAuth, getAllItems)
+router.post('/:id', userAuth, addItem)
+router.delete('/:id', userAuth, deleteItem)
 
 module.exports = router

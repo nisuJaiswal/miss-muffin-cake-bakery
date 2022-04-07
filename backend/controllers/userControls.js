@@ -42,22 +42,59 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (user && (await bcryptjs.compare(password, user.password))) {
-
-        let cookieOptions = {
-            expires: new Date(
-                Date.now() + 1 * 24 * 60 * 60 * 1000
-            ),
-            httpOnly: true,
-        }
-
-        res.cookie('token', generateToken(user._id), cookieOptions).cookie('role', user.role).json({ "success": "Logined", "jwtToken": generateToken(user._id) })
+        sendToken(user, 200, res);
     }
     else {
         res.json({ "error": "Creds are wrong" })
     }
 }
+
+const logout = (req, res) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged Out",
+    });
+}
+
+// GET ALL USRS --ADMIN
+const getAllUsers = async (req, res) => {
+    if (req.cookies.role === 'admin') {
+
+        const allUsers = await User.find({})
+        res.json({ allUsers })
+    }
+    else {
+        res.json({ error: "You are not admin" })
+    }
+}
+
+
 // FUNCTION FOR GENERATE TOKEN
 const generateToken = (id) => {
     return jwt.sign({ id }, SECRET, { expiresIn: '1d' })
+
 }
-module.exports = { register, login }
+
+const sendToken = (user, statusCode, res) => {
+    const token = generateToken(user._id);
+
+    // options for cookie
+    const options = {
+        expires: new Date(
+            Date.now() + 1 * 24 * 60 * 60 * 1000
+        ),
+        httpOnly: true,
+    };
+
+    res.status(statusCode).cookie("token", token, options).cookie("role", user.role).json({
+        success: true,
+        user,
+        token,
+    });
+};
+module.exports = { register, login, logout, getAllUsers }
