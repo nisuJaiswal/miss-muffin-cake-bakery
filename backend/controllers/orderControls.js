@@ -29,4 +29,18 @@ const addItemToDB = async (req, res) => {
         return res.json({ "error": 'You are not an admin' })
     }
 }
-module.exports = { addItem, addItemToDB };
+
+// GET REQ --ADMIN 
+const getAllItems = async (req, res) => {
+    const allItems = await Item.find({})
+    res.json({ allItems })
+}
+
+// DEL REQ -- ADMIN
+const deleteItem = async (req, res) => {
+    const { id } = req.params;
+
+    const deleted = await Item.findByIdAndDelete({ _id: id })
+    res.json({ deleted })
+}
+module.exports = { addItem, addItemToDB, getAllItems, deleteItem };
