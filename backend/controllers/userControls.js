@@ -63,7 +63,7 @@ const logout = (req, res) => {
 
 // GET ALL USRS --ADMIN
 const getAllUsers = async (req, res) => {
-    if (req.cookies.role === 'admin') {
+    if (req.user.role === 'admin') {
 
         const allUsers = await User.find({})
         res.json({ allUsers })
