@@ -2,6 +2,14 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const SECRET = process.env.JWT_SECRET
+var cloudinary = require('cloudinary');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
+
 // POST REQ
 const register = async (req, res) => {
     const { firstname, lastname, username, password, email, address } = req.body;
@@ -22,15 +30,22 @@ const register = async (req, res) => {
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
+    if (!req.file) {
 
-    if (createdUser) {
-        res.json({ "success": "User created Successfully" });
+        const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
+        return res.json({ createdUser })
     }
-    else {
-        res.json({ "error": "Something went wrong in database" })
-        res.json({ "error": "Something went wrong in database" })
-    }
+
+
+    const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
+        folder: "avatars",
+        width: 250,
+        crop: "scale",
+    });
+    const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, image: myCloud.secure_url, address });
+    // return res.json({ createdUser })
+    return res.json({ createdUser })
+
 }
 
 // POST REQ
@@ -97,7 +112,9 @@ const sendToken = (user, statusCode, res) => {
         token,
     });
 };
-const uploadImage = (req, res) => {
-    res.json({ data: req.file })
+const uploadImage = async (req, res) => {
+    // res.json({ data: req.file })
+
+
 }
 module.exports = { register, login, logout, getAllUsers, uploadImage }

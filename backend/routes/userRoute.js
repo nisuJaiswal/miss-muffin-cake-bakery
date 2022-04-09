@@ -9,17 +9,16 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
-        // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        // cb(null, file.originalname + '-' + uniqueSuffix)
+        cb(null, file.originalname + '--' + Date.now())
     }
 });
 const upload = multer({ storage: storage })
-// const upload = multer({ dest: 'uploads/' })
+
+
 router.post('/login', login)
-router.post('/register', register)
+router.post('/register', upload.single('userimage'), register)
 router.post('/logout', logout)
 router.get('/getAllUsers', userAuth, getAllUsers)
-router.post('/uploaduserimage', upload.single('userimage'), uploadImage)
+// router.post('/uploaduserimage', upload.single('userimage'), uploadImage)
 
 module.exports = router;

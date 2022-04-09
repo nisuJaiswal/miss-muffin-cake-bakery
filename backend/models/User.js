@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
     },
+    image: {
+        type: String,
+        default: 'https://res.cloudinary.com/dexshxzyp/image/upload/v1649503397/avatars/odjgpditepgcu2s4e2ax.png'
+    },
     role: {
         type: String,
         default: "user"
