@@ -8,6 +8,8 @@ var cookieParser = require('cookie-parser');
 // Middlewares
 app.use(express.json())
 app.use(cookieParser())
+app.use('/public', express.static(process.cwd() + '/public'));
+app.use('/uploads', express.static(process.cwd() + '/uploads'))
 connectDb();
 
 // app.get('/', (req, res) => {
@@ -16,6 +18,7 @@ connectDb();
 
 app.use('/api/user', require('./routes/userRoute'))
 app.use('/api/order', require('./routes/orderRoute'))
+
 
 
 app.listen(PORT, (err) => {

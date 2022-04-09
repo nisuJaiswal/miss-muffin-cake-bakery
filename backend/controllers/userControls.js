@@ -97,4 +97,7 @@ const sendToken = (user, statusCode, res) => {
         token,
     });
 };
-module.exports = { register, login, logout, getAllUsers }
+const uploadImage = (req, res) => {
+    res.json({ data: req.file })
+}
+module.exports = { register, login, logout, getAllUsers, uploadImage }
