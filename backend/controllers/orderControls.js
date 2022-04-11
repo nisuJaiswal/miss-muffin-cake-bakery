@@ -1,5 +1,12 @@
 const Item = require('../models/Item')
 const Order = require('../models/Order')
+var cloudinary = require('cloudinary');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 // ADD ITEM TO CART -- USER
 const addItem = async (req, res) => {
@@ -28,9 +35,14 @@ const addItemToDB = async (req, res) => {
         if (!name || !description || !price || !quantity || !weight) {
             return res.json({ error: "Provide all values" })
         }
-
-        const itemToAdd = await Item.insertMany([{ name, description, price, quantity, weight }])
+        const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
+            folder: "itemImages",
+            width: 250,
+            crop: "scale",
+        });
+        const itemToAdd = await Item.insertMany([{ name, description, price, quantity, weight, image: myCloud.secure_url }])
         res.json({ itemToAdd })
+        // res.json({ file: req.file })
     }
     else {
         return res.json({ "error": 'You are not an admin' })

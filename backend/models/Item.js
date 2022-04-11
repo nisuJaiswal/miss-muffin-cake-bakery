@@ -16,6 +16,10 @@ const itemSchema = new mongoose.Schema({
     },
     weight: {
         type: Number
+    },
+    image: {
+        type: String,
+        default: 'https://res.cloudinary.com/dexshxzyp/image/upload/v1649503397/avatars/odjgpditepgcu2s4e2ax.png'
     }
 
 })
