@@ -112,9 +112,29 @@ const sendToken = (user, statusCode, res) => {
         token,
     });
 };
-const uploadImage = async (req, res) => {
-    // res.json({ data: req.file })
+
+const resetPassword = async (req, res) => {
+    const { currentPass, newPass, confirmPass } = req.body;
+    if (!newPass || !confirmPass || !currentPass) {
+        return res.json({ error: "Enter all fields" })
+    }
+    if (!(await bcryptjs.compare(currentPass, req.user.password))) {
+        return res.json({ error: "Current Password is wrong" })
+    }
+    if (newPass !== confirmPass) {
+        return res.json({ error: "Passwords doesn't matches" })
+    }
+
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(confirmPass, salt);
+
+    // const resetPasswordUser = await User.updateOne({ _id: req.user._id }, { $set: { password: hashedPassword } })
+    // await User.save();
+    const resetPasswordUser = await User.findOne({ _id: req.user._id })
+    resetPasswordUser.password = hashedPassword;
+    await resetPasswordUser.save()
+    res.json({ resetPasswordUser })
 
 
 }
-module.exports = { register, login, logout, getAllUsers, uploadImage }
+module.exports = { register, login, logout, getAllUsers, resetPassword };
