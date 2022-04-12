@@ -1,6 +1,7 @@
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const nodemailer = require("nodemailer");
 const SECRET = process.env.JWT_SECRET
 var cloudinary = require('cloudinary');
 
@@ -135,6 +136,30 @@ const resetPassword = async (req, res) => {
     await resetPasswordUser.save()
     res.json({ resetPasswordUser })
 
+    const testAccount = await nodemailer.createTestAccount();
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            type: 'OAuth2',
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+            clientId: process.env.OAUTH_CLIENTID,
+            clientSecret: process.env.OAUTH_CLIENT_SECRET,
+            refreshToken: process.env.OAUTH_REFRESH_TOKEN
+        }
+    });
+
+    // send mail with defined transport object
+    const info = await transporter.sendMail({
+        from: 'nisujaiswal4@gmail.com',
+        to: req.user.email,
+        subject: "Password has been changed",
+        text: `Your password has been changed in Miss Muffin Home Backery at ${new Date().toLocaleString()}`,
+    });
+
+    // if (info) return console.log("Mail sent")
 
 }
 module.exports = { register, login, logout, getAllUsers, resetPassword };
