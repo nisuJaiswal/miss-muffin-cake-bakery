@@ -129,8 +129,7 @@ const resetPassword = async (req, res) => {
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(confirmPass, salt);
 
-    // const resetPasswordUser = await User.updateOne({ _id: req.user._id }, { $set: { password: hashedPassword } })
-    // await User.save();
+
     const resetPasswordUser = await User.findOne({ _id: req.user._id })
     resetPasswordUser.password = hashedPassword;
     await resetPasswordUser.save()
@@ -138,7 +137,6 @@ const resetPassword = async (req, res) => {
 
     const testAccount = await nodemailer.createTestAccount();
 
-    // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -149,17 +147,12 @@ const resetPassword = async (req, res) => {
             clientSecret: process.env.OAUTH_CLIENT_SECRET,
             refreshToken: process.env.OAUTH_REFRESH_TOKEN
         }
-    });
-
-    // send mail with defined transport object
+    }); cd
     const info = await transporter.sendMail({
         from: 'nisujaiswal4@gmail.com',
         to: req.user.email,
         subject: "Password has been changed",
         text: `Your password has been changed in Miss Muffin Home Backery at ${new Date().toLocaleString()}`,
     });
-
-    // if (info) return console.log("Mail sent")
-
 }
 module.exports = { register, login, logout, getAllUsers, resetPassword };

@@ -1,10 +1,15 @@
 {
   "name": "miss-miuffin-home-bakery",
   "version": "1.0.0",
-  "description": "Miss Muffin home bakery ",
+  "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nisuJaiswal/miss-muffin-cake-bakery.git"
   },
   "author": "",
   "license": "ISC",

@@ -20,6 +20,5 @@ router.post('/register', upload.single('userimage'), register)
 router.post('/logout', logout)
 router.get('/getAllUsers', userAuth, getAllUsers)
 router.put('/resetPassword', userAuth, resetPassword)
-// router.post('/uploaduserimage', upload.single('userimage'), uploadImage)
 
 module.exports = router;
