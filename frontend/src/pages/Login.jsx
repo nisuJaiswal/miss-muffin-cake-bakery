@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -7,7 +8,13 @@ import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
+import { Alert } from '@mui/material';
 import { TextField, Button } from '@mui/material'
+import { login } from '../actions/userActions';
+// import history from '../history'
+import { useNavigate } from "react-router"
+import { CircularProgress } from "@mui/material"
+// import { useAlert } from 'react-alert'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,11 +51,14 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
-
+    const history = useNavigate()
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const { error, loading, isAuthenticated } = useSelector((state) => state.user)
+    const [isError, setIsError] = useState(false)
     const [loginEmail, setLoginEmail] = useState('')
     const [loginPassword, setLoginPassword] = useState('')
     const [avatar, setAvatar] = useState('https://res.cloudinary.com/dexshxzyp/image/upload/v1649503397/avatars/odjgpditepgcu2s4e2ax.png')
@@ -92,20 +102,35 @@ export default function BasicTabs() {
     }
     const loginSubmit = (e) => {
         e.preventDefault()
-        console.log("logined")
+        dispatch(login(loginEmail, loginPassword))
     }
+    useEffect(() => {
+        if (error) {
+            setIsError(true)
+        }
+        if (isAuthenticated) {
+            history('/')
+        }
+    }, [dispatch, error, history, isAuthenticated])
+
     return (
+
         <Box sx={{
             marginTop: '1.8rem', height: '90vh', width: 'full', display: 'flex', justifyContent: 'center', alignItems: 'center'
         }}>
 
-            <Box sx={{ padding: '1rem', boxShadow: '5px 5px 10px gray', width: { xs: 300, md: 400 } }} >
+            {loading ? (<CircularProgress color="inherit" />) : (<Box sx={{ padding: '1rem', boxShadow: '5px 5px 10px gray', width: { xs: 300, md: 400 } }} >
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
                         <Tab label="LOGIN" {...a11yProps(0)} />
                         <Tab label="REGISTER" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
+                {isError &&
+                    <Alert severity="error" style={{ marginTop: 18 }}>{error}</Alert>
+
+                }
+
                 <TabPanel value={value} index={0}>
                     <Box>
                         <form onSubmit={loginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -145,7 +170,7 @@ export default function BasicTabs() {
                         </Box>
                     </form>
                 </TabPanel>
-            </Box>
+            </Box>)}
         </Box >
     );
 }
