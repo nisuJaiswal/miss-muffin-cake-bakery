@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import { Alert } from '@mui/material';
 import { TextField, Button } from '@mui/material'
-import { login } from '../actions/userActions';
+import { login, register } from '../actions/userActions';
 // import history from '../history'
 import { useNavigate } from "react-router"
 import { CircularProgress } from "@mui/material"
@@ -98,7 +98,19 @@ export default function BasicTabs() {
     };
     const registrationSubmit = (e) => {
         e.preventDefault();
-        console.log("Registered")
+        // console.log("Registered")
+        const formData = new FormData();
+
+        formData.set("username", username)
+        formData.set("email", email)
+        formData.set("password", password)
+        formData.set("firstname", firstname)
+        formData.set("lastname", lastname)
+        formData.set("image", avatar)
+
+        dispatch(register(formData))
+
+
     }
     const loginSubmit = (e) => {
         e.preventDefault()
@@ -143,7 +155,7 @@ export default function BasicTabs() {
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <form onSubmit={registrationSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <form onSubmit={registrationSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px' }} />
                             <input type="file" name="userImage" ref={fileInput} style={{

@@ -11,12 +11,13 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 
-// POST REQ
+// POST REQ FOR REGISTRATION
 const register = async (req, res) => {
-    const { firstname, lastname, username, password, email, address } = req.body;
+    const { firstname, lastname, username, password, email } = req.body;
+    let { address } = req.body
 
     if (!firstname || !lastname || !username || !password || !email) {
-        return res.json({ "err": "Enter all fields" })
+        return res.json({ "error": "Enter all fields" })
     }
 
     if (!address) {
@@ -34,7 +35,7 @@ const register = async (req, res) => {
     if (!req.file) {
 
         const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
-        return res.json({ createdUser })
+        return res.json({ user: createdUser })
     }
 
 
@@ -45,7 +46,7 @@ const register = async (req, res) => {
     });
     const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, image: myCloud.secure_url, address });
     // return res.json({ createdUser })
-    return res.json({ createdUser })
+    return res.json({ user: createdUser })
 
 }
 

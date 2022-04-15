@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_ERROR, LOGIN_SUCCESS, CLEAR_ERRORS } from '../constants/userContstants'
+import { LOGIN_REQUEST, LOGIN_ERROR, LOGIN_SUCCESS, CLEAR_ERRORS, REG_REQUEST, REG_ERROR, REG_SUCCESS } from '../constants/userContstants'
 import axios from 'axios'
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -14,6 +14,20 @@ export const login = (email, password) => async (dispatch) => {
     } catch (error) {
         dispatch({ type: LOGIN_ERROR, payload: "CREDENTIALS ARE WRONG" })
     }
+}
+
+export const register = (formData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: REG_REQUEST })
+        // const config = { headers: { "Content-Type": "multipart/form-data" } };
+        const { data } = await axios.post('/api/user/register', formData)
+        dispatch({ type: REG_SUCCESS, payload: data.user })
+    } catch (error) {
+        dispatch({ type: REG_ERROR, payload: "Catched Error" })
+    }
+
+
 }
 
 export const clearErrors = () => async (dispatch) => {
