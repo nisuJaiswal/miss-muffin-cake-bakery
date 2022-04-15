@@ -1,19 +1,23 @@
+import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 
 } from "react-router-dom";
-
+import { loadUser } from "./actions/userActions";
+import store from './store'
 
 import Navbar from "./components/Navbar";
 import Index from "./pages/Index"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-// import { createBrowserHistory } from 'history';
-// import history from "./util/history"
-// import history from './history'
+
 function App() {
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, [])
+
   return (
     <>
       {/* history={createBrowserHistory} */}

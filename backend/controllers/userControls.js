@@ -173,4 +173,8 @@ const resetPassword = async (req, res) => {
         text: `Your password has been changed in Miss Muffin Home Backery at ${new Date().toLocaleString()}`,
     });
 }
-module.exports = { register, login, logout, getAllUsers, resetPassword };
+const getme = async (req, res) => {
+    const user = await User.findById(req.user._id)
+    res.json({ user })
+}
+module.exports = { register, login, logout, getAllUsers, resetPassword, getme };

@@ -6,4 +6,11 @@ export const REG_REQUEST = "REG_REQUEST"
 export const REG_SUCCESS = "REG_SUCCESS"
 export const REG_ERROR = "REG_ERROR"
 
+export const LOAD_REQUEST = "LOAD_REQUEST"
+export const LOAD_SUCCESS = "LOAD_SUCCESS"
+export const LOAD_ERROR = "LOAD_ERROR"
+
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
+export const LOGOUT_ERROR = "LOGOUT_ERROR"
+
 export const CLEAR_ERRORS = "CLEAR_ERRORS"

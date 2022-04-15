@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,11 +13,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import LogoutIcon from '@mui/icons-material/Logout';
+// import { LOGOUT_SUCCESS } from '../constants/userContstants';
+import { useNavigate } from "react-router"
+import { logout } from '../actions/userActions';
+
 // const pages = ['Cart', 'Previous Orders'];s
 const settings = ['Profile', 'Logout'];
 
 const Navbar = () => {
+    const dispatch = new useDispatch()
+    const navigator = useNavigate()
+    const { isAuthenticated } = useSelector(state => state.user)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -42,7 +51,17 @@ const Navbar = () => {
         textDecoration: 'none',
         color: 'black'
     }
-    const { image } = useSelector(state => state.user.user)
+    const onLogout = () => {
+        dispatch(logout())
+    }
+    const { image } = useSelector(state => state.user)
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigator('/login')
+        }
+    }, [isAuthenticated, navigator])
+
     // console.log(image)
     return (
         <AppBar position="static" style={{ backgroundColor: "orange" }}>
@@ -151,6 +170,9 @@ const Navbar = () => {
                                 </MenuItem>
                             ))}
                         </Menu>
+                    </Box>
+                    <Box mx={2}>
+                        <LogoutIcon onClick={onLogout} style={{ cursor: 'pointer' }} />
                     </Box>
                 </Toolbar>
             </Container>
