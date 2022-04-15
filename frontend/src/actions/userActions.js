@@ -20,11 +20,17 @@ export const register = (formData) => async (dispatch) => {
     try {
 
         dispatch({ type: REG_REQUEST })
-        // const config = { headers: { "Content-Type": "multipart/form-data" } };
-        const { data } = await axios.post('/api/user/register', formData)
-        dispatch({ type: REG_SUCCESS, payload: data.user })
+        console.log(formData.get('userimage'))
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
+        const { data } = await axios.post('/api/user/register', formData, config)
+        // if (data.error !== "") return dispatch({ type: REG_ERROR, payload: error })
+        if (data.user)
+            return dispatch({ type: REG_SUCCESS, payload: data.user })
+        dispatch({ type: REG_ERROR, payload: data.error })
     } catch (error) {
-        dispatch({ type: REG_ERROR, payload: "Catched Error" })
+
+
+        dispatch({ type: REG_ERROR, payload: error })
     }
 
 

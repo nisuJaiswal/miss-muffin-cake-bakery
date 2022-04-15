@@ -14,6 +14,7 @@ cloudinary.config({
 // POST REQ FOR REGISTRATION
 const register = async (req, res) => {
     const { firstname, lastname, username, password, email } = req.body;
+    // console.log(req.body.userimage)
     let { address } = req.body
 
     if (!firstname || !lastname || !username || !password || !email) {
@@ -32,20 +33,36 @@ const register = async (req, res) => {
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    if (!req.file) {
+    // if (!req.file) {
 
+    //     const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
+    //     console.log("NO FIle RECEIVED")
+    //     return res.json({ user: createdUser })
+    // }
+
+    if (!req.body.userimage) {
         const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
+        console.log("NO FIle RECEIVED")
         return res.json({ user: createdUser })
     }
 
 
-    const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
-        folder: "avatars",
+    // const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
+    //     folder: "uploads/",
+    //     width: 250,
+    //     crop: "scale",
+    // });
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.userimage, {
+        folder: "uploads/",
         width: 250,
         crop: "scale",
     });
+
+
+
     const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, image: myCloud.secure_url, address });
     // return res.json({ createdUser })
+    console.log("file REceived")
     return res.json({ user: createdUser })
 
 }

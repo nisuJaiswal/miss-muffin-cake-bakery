@@ -55,14 +55,14 @@ export default function BasicTabs() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    // const dispatch = useDispatch();
     const dispatch = useDispatch();
     const { error, loading, isAuthenticated } = useSelector((state) => state.user)
+
     const [isError, setIsError] = useState(false)
     const [loginEmail, setLoginEmail] = useState('')
     const [loginPassword, setLoginPassword] = useState('')
-    const [avatar, setAvatar] = useState('https://res.cloudinary.com/dexshxzyp/image/upload/v1649503397/avatars/odjgpditepgcu2s4e2ax.png')
-    const [avatarPreview, setAvatarPreview] = useState("https://res.cloudinary.com/dexshxzyp/image/upload/v1649503397/avatars/odjgpditepgcu2s4e2ax.png");
+    const [avatar, setAvatar] = useState("/DefaultUser.png")
+    const [avatarPreview, setAvatarPreview] = useState("/DefaultUser.png");
     const [isImgChanged, setIsImgChanged] = useState(false)
     const [user, setUser] = useState({
         username: '',
@@ -78,13 +78,14 @@ export default function BasicTabs() {
         fileInput.current.click();
     }
     const dataChanged = (e) => {
-        if (e.target.name === "userImage") {
+        if (e.target.name === "userimage") {
             const reader = new FileReader();
 
             reader.onload = () => {
                 if (reader.readyState === 2) {
                     setAvatarPreview(reader.result);
                     setAvatar(reader.result);
+                    console.log(avatar)
                     setIsImgChanged(true)
                 }
             };
@@ -106,8 +107,8 @@ export default function BasicTabs() {
         formData.set("password", password)
         formData.set("firstname", firstname)
         formData.set("lastname", lastname)
-        formData.set("image", avatar)
-
+        formData.set("userimage", avatar)
+        // console.log(formData)
         dispatch(register(formData))
 
 
@@ -123,7 +124,7 @@ export default function BasicTabs() {
         if (isAuthenticated) {
             history('/')
         }
-    }, [dispatch, error, history, isAuthenticated])
+    }, [dispatch, error, isError, history, isAuthenticated])
 
     return (
 
@@ -138,29 +139,27 @@ export default function BasicTabs() {
                         <Tab label="REGISTER" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
-                {isError &&
-                    <Alert severity="error" style={{ marginTop: 18 }}>{error}</Alert>
-
-                }
 
                 <TabPanel value={value} index={0}>
                     <Box>
                         <form onSubmit={loginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                            <TextField id="standard-basic" required label="Email" variant="standard" value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value) }} />
-                            <TextField id="standard-basic" required label="Password" variant="standard" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
+                            <TextField required label="Email" variant="standard" value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value) }} />
+                            <TextField required label="Password" variant="standard" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
                             <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Button type="submit" variant="contained" >LOG IN</Button>
                             </Box>
                         </form>
+                        {isError &&
+                            <Alert severity="error" style={{ marginTop: 18 }}>{error}</Alert>
+
+                        }
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <form onSubmit={registrationSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px' }} />
-                            <input type="file" name="userImage" ref={fileInput} style={{
-                                display: 'none'
-                            }} onChange={dataChanged} />
+                            <input type="file" name="userimage" ref={fileInput} onChange={dataChanged} accept="images/*" />
                             {
                                 !isImgChanged ? (
                                     <AddIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(-100%) translateY(180%)' }} />
@@ -171,11 +170,11 @@ export default function BasicTabs() {
                             }
                         </Box>
 
-                        <TextField id="standard-basic" required value={username} name="username" label="Username" variant="standard" onChange={dataChanged} />
-                        <TextField id="standard-basic" required value={email} name="email" label="Email" variant="standard" type='email' onChange={dataChanged} />
-                        <TextField id="standard-basic" required value={password} name="password" label="Password" type="password" variant="standard" onChange={dataChanged} />
-                        <TextField id="standard-basic" required value={firstname} name="firstname" label="First Name" variant="standard" onChange={dataChanged} />
-                        <TextField id="standard-basic" required value={lastname} name="lastname" label="Last Name" variant="standard" onChange={dataChanged} />
+                        <TextField required value={username} name="username" label="Username" variant="standard" onChange={dataChanged} />
+                        <TextField required value={email} name="email" label="Email" variant="standard" type='email' onChange={dataChanged} />
+                        <TextField required value={password} name="password" label="Password" type="password" variant="standard" onChange={dataChanged} />
+                        <TextField required value={firstname} name="firstname" label="First Name" variant="standard" onChange={dataChanged} />
+                        <TextField required value={lastname} name="lastname" label="Last Name" variant="standard" onChange={dataChanged} />
 
                         <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Button type="submit" variant="contained" >REGISTER</Button>

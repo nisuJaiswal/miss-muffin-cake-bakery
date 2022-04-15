@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 // const pages = ['Cart', 'Previous Orders'];s
 const settings = ['Profile', 'Logout'];
 
@@ -41,6 +42,8 @@ const Navbar = () => {
         textDecoration: 'none',
         color: 'black'
     }
+    const { image } = useSelector(state => state.user.user)
+    // console.log(image)
     return (
         <AppBar position="static" style={{ backgroundColor: "orange" }}>
             <Container maxWidth="xl">
@@ -123,7 +126,7 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="User" sx={{ width: 50, height: 50 }} src="https://res.cloudinary.com/dexshxzyp/image/upload/v1649503397/avatars/odjgpditepgcu2s4e2ax.png" />
+                                <Avatar alt="User" sx={{ width: 50, height: 50 }} src={image} />
                             </IconButton>
                         </Tooltip>
                         <Menu
