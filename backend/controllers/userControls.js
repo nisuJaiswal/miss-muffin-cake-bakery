@@ -25,49 +25,45 @@ const register = async (req, res) => {
         address = "";
     }
 
-    const exitstingUser = await User.findOne({ username });
-    if (exitstingUser) {
-        return res.json({ "error": "Username already Exitsts" });
-    }
-
-    const salt = await bcryptjs.genSalt(10);
-    const hashedPassword = await bcryptjs.hash(password, salt);
-
-    // if (!req.file) {
-
-    //     const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
-    //     console.log("NO FIle RECEIVED")
-    //     return res.json({ user: createdUser })
+    // const exitstingUser = await User.findOne({ username, email });
+    // if (exitstingUser) {
+    //     return res.json({ "error": "Username or Email already exists" });
     // }
+    User.find({ $or: [{ email }, { username }] }).exec(async (err, data) => {
 
-    if (!req.body.userimage) {
-        const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
-        console.log("NO FIle RECEIVED")
-        return res.json({ user: createdUser })
-    }
+        if (data.length > 0) {
+            return res.json({ "error": "Username or Email already exists" });
+        }
+        else {
+            const salt = await bcryptjs.genSalt(10);
+            const hashedPassword = await bcryptjs.hash(password, salt);
 
 
-    // const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
-    //     folder: "uploads/",
-    //     width: 250,
-    //     crop: "scale",
-    // });
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.userimage, {
-        folder: "uploads/",
-        width: 250,
-        crop: "scale",
+            if (!req.body.userimage) {
+                const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, address });
+                console.log("NO FIle RECEIVED")
+                return res.json({ user: createdUser })
+            }
+
+
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.userimage, {
+                folder: "uploads/",
+                width: 250,
+                crop: "scale",
+            });
+
+            const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, image: myCloud.secure_url, address });
+            // return res.json({ createdUser })
+            console.log("file REceived")
+            return res.json({ user: createdUser })
+        }
     });
 
 
 
-    const createdUser = await User.create({ firstname, lastname, email, username, password: hashedPassword, image: myCloud.secure_url, address });
-    // return res.json({ createdUser })
-    console.log("file REceived")
-    return res.json({ user: createdUser })
-
 }
 
-// POST REQ
+// POST REQ FOR LOGIN   
 const login = async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -83,6 +79,7 @@ const login = async (req, res) => {
     }
 }
 
+// GET REQUEST FOR LOGOUT
 const logout = (req, res) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
@@ -173,8 +170,23 @@ const resetPassword = async (req, res) => {
         text: `Your password has been changed in Miss Muffin Home Backery at ${new Date().toLocaleString()}`,
     });
 }
+
+// DELETE A USER --ADMIN
+const deleteUser = async (req, res) => {
+    if (req.user.role === 'admin') {
+
+        const { userId } = req.params;
+        const deletedUser = await User.findByIdAndDelete({ _id: userId })
+        res.json({ deleteUser })
+    }
+    else {
+        res.json({ error: "You are not admin" })
+    }
+}
+
+// GET LOGED IN USER
 const getme = async (req, res) => {
     const user = await User.findById(req.user._id)
     res.json({ user })
 }
-module.exports = { register, login, logout, getAllUsers, resetPassword, getme };
+module.exports = { register, login, logout, getAllUsers, resetPassword, deleteUser, getme };

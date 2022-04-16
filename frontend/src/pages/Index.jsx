@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar'
 const Index = () => {
     // const { isAuthenticated } = useSelector(state => state.user)
     const { isAuthenticated, loading } = useSelector((state) => state.user)
-    console.log(loading)
+
     // const navigator = useNavigate()
     const navigator = useNavigate()
 
