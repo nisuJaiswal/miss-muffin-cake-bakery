@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,20 +14,16 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import LogoutIcon from '@mui/icons-material/Logout';
-// import { LOGOUT_SUCCESS } from '../constants/userContstants';
 import { useNavigate } from "react-router"
 import { logout } from '../actions/userActions';
-
-// const pages = ['Cart', 'Previous Orders'];s
-const settings = ['Profile', 'Logout'];
 
 const Navbar = () => {
     const dispatch = new useDispatch()
     const navigator = useNavigate()
-    const { isAuthenticated } = useSelector(state => state.user)
+    const { isAuthenticated, user } = useSelector(state => state.user)
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [userAvatar, setUserAvatar] = useState('')
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -54,15 +50,19 @@ const Navbar = () => {
     const onLogout = () => {
         dispatch(logout())
     }
-    const { image } = useSelector(state => state.user)
 
     useEffect(() => {
+        if (user) {
+            setUserAvatar(user.image)
+        }
         if (!isAuthenticated) {
             navigator('/login')
         }
-    }, [isAuthenticated, navigator])
 
-    // console.log(image)
+    }, [isAuthenticated, navigator, user])
+
+
+
     return (
         <AppBar position="static" style={{ backgroundColor: "orange" }}>
             <Container maxWidth="xl">
@@ -145,7 +145,7 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="User" sx={{ width: 50, height: 50 }} src={image} />
+                                <Avatar alt="User" sx={{ width: 50, height: 50 }} src={userAvatar} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -164,16 +164,17 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center">Profile</Typography>
+                            </MenuItem>
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center" onClick={onLogout}>Logout</Typography>
+                            </MenuItem>
+
                         </Menu>
                     </Box>
-                    <Box mx={2}>
-                        <LogoutIcon onClick={onLogout} style={{ cursor: 'pointer' }} />
-                    </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>

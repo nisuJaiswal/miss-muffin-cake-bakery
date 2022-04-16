@@ -79,7 +79,7 @@ const login = async (req, res) => {
         sendToken(user, 200, res);
     }
     else {
-        res.status(401).json({ "error": "Creds are wrong" })
+        res.json({ "error": "Creds are wrong" })
     }
 }
 

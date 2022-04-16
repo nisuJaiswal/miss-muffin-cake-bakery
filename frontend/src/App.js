@@ -8,7 +8,7 @@ import {
 import { loadUser } from "./actions/userActions";
 import store from './store'
 
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Index from "./pages/Index"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
@@ -22,7 +22,7 @@ function App() {
     <>
       {/* history={createBrowserHistory} */}
       <Router >
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           {/* <Route exact path="/" component={Index} /> */}
           <Route exact path="/" element={<Index />} />
