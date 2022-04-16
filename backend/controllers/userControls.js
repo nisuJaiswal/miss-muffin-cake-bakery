@@ -176,8 +176,11 @@ const deleteUser = async (req, res) => {
     if (req.user.role === 'admin') {
 
         const { userId } = req.params;
-        const deletedUser = await User.findByIdAndDelete({ _id: userId })
-        res.json({ deleteUser })
+        User.findByIdAndDelete({ _id: userId }, (err, data) => {
+            if (data) return res.json({ success: true, msg: "User deleted" })
+
+        })
+        // res.json({ deleteUser })
     }
     else {
         res.json({ error: "You are not admin" })
