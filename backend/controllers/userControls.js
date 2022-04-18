@@ -193,16 +193,38 @@ const getme = async (req, res) => {
 }
 
 const updateProfile = async (req, res) => {
-    const { firstname, lastname, email, username } = req.body;
+    try {
 
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
-        firstname, lastname, username, email
-    }, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-    })
 
-    res.json({ updatedUser })
+        const { firstname, lastname, email, username } = req.body;
+        console.log(req.body.firstname)
+        if (req.body.userimage !== "") {
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.userimage, {
+                folder: "avatar/",
+                width: 250,
+                crop: "scale",
+            });
+            const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+                firstname, lastname, username, email, image: myCloud.secure_url
+            }, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false,
+            })
+            console.log("inside if statement")
+            return res.json({ updatedUser })
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+            firstname, lastname, username, email
+        }, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        })
+        res.json({ updatedUser })
+    } catch (error) {
+        res.json({ error })
+    }
 }
 module.exports = { register, login, logout, getAllUsers, resetPassword, deleteUser, updateProfile, getme };
