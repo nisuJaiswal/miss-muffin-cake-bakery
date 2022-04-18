@@ -180,7 +180,6 @@ const deleteUser = async (req, res) => {
             if (data) return res.json({ success: true, msg: "User deleted" })
 
         })
-        // res.json({ deleteUser })
     }
     else {
         res.json({ error: "You are not admin" })
@@ -192,4 +191,18 @@ const getme = async (req, res) => {
     const user = await User.findById(req.user._id)
     res.json({ user })
 }
-module.exports = { register, login, logout, getAllUsers, resetPassword, deleteUser, getme };
+
+const updateProfile = async (req, res) => {
+    const { firstname, lastname, email, username } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+        firstname, lastname, username, email
+    }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    })
+
+    res.json({ updatedUser })
+}
+module.exports = { register, login, logout, getAllUsers, resetPassword, deleteUser, updateProfile, getme };

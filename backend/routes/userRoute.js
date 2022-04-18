@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { register, login, logout, getAllUsers, resetPassword, getme, deleteUser } = require('../controllers/userControls')
+const { register, login, logout, getAllUsers, resetPassword, getme, deleteUser, updateProfile } = require('../controllers/userControls')
 const { userAuth } = require('../middleware/userAuth')
 
 const multer = require('multer')
@@ -22,5 +22,6 @@ router.get('/getAllUsers', userAuth, getAllUsers)
 router.put('/resetPassword', userAuth, resetPassword)
 router.get('/deleteUser/:userId', userAuth, deleteUser)
 router.get('/getMe', userAuth, getme)
+router.post('/updateProfile', userAuth, updateProfile)
 
 module.exports = router;
