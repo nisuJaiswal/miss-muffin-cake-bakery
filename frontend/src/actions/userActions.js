@@ -10,7 +10,10 @@ import {
     LOAD_REQUEST,
     LOAD_SUCCESS,
     LOGOUT_SUCCESS,
-    LOGOUT_ERROR
+    LOGOUT_ERROR,
+    UPDATE_PROFILE_REQ,
+    UPDATE_PROFILE_ERROR,
+    UPDATE_PROFILE_SUCCESS
 } from '../constants/userContstants'
 import axios from 'axios'
 
@@ -78,6 +81,22 @@ export const logout = () => async (dispatch) => {
     dispatch({ type: LOGOUT_ERROR })
 }
 
+// FOR UPDATE PROFILE
+export const updateProfile = (formData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_PROFILE_REQ })
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
+        console.log(formData)
+        const { data } = await axios.put('/api/user/updateProfile', formData)
+        // if (data.error !== "") return dispatch({ type: REG_ERROR, payload: error })
+        if (data.success)
+            return dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success })
+        dispatch({ type: UPDATE_PROFILE_ERROR, payload: data.error })
+    } catch (error) {
+        dispatch({ type: UPDATE_PROFILE_ERROR, payload: error })
+    }
+}
 
 // FOR CLEAR ERRORS
 export const clearErrors = () => async (dispatch) => {

@@ -137,7 +137,7 @@ export default function BasicTabs() {
 
         <Box sx={{
             marginTop: '1.8rem', height: '90vh', width: 'full', display: 'flex', justifyContent: 'center', alignItems: 'center'
-        }} component={'div'}>
+        }} component='div'>
 
             {loading ? (<CircularProgress color="inherit" />) :
                 (
@@ -145,7 +145,7 @@ export default function BasicTabs() {
 
                         <Box sx={{ padding: '1rem', boxShadow: '5px 5px 10px gray', width: { xs: 300, sm: 400 } }} >
 
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} component={'div'}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} component='div'>
                                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
                                     <Tab label="LOGIN" {...a11yProps(0)} />
                                     <Tab label="REGISTER" {...a11yProps(1)} />
@@ -156,8 +156,8 @@ export default function BasicTabs() {
                                     <Alert severity="error" style={{ marginTop: 18 }}>{error}</Alert>
                                 }
                             </div>
-                            <TabPanel value={value} index={0} component={'div'}>
-                                <Box component={'div'}>
+                            <TabPanel value={value} index={0} component='div'>
+                                <Box component='div'>
                                     <form onSubmit={loginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                                         <TextField required label="Email" variant="standard" value={loginEmail} onChange={(e) => { setLoginEmail(e.target.value) }} />
                                         <TextField required label="Password" variant="standard" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
@@ -168,7 +168,7 @@ export default function BasicTabs() {
 
                                 </Box>
                             </TabPanel>
-                            <TabPanel value={value} index={1} component={'div'}>
+                            <TabPanel value={value} index={1} component='div'>
                                 <form onSubmit={registrationSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px', textAlign: "center" }} />

@@ -192,39 +192,49 @@ const getme = async (req, res) => {
     res.json({ user })
 }
 
+
+// UPDATE USER PROFILE
 const updateProfile = async (req, res) => {
     try {
-
-
         const { firstname, lastname, email, username } = req.body;
-        console.log(req.body.firstname)
-        if (req.body.userimage !== "") {
+        let address
+        if (req.body.address) {
+            address = req.body.address
+        }
+        else {
+            address = ""
+        }
+        console.log(req.body)
+        if (!firstname) return res.json({ error: "Enter all details" })
+        if (req.body.userimage) {
             const myCloud = await cloudinary.v2.uploader.upload(req.body.userimage, {
                 folder: "avatar/",
                 width: 250,
                 crop: "scale",
             });
             const updatedUser = await User.findByIdAndUpdate(req.user._id, {
-                firstname, lastname, username, email, image: myCloud.secure_url
+                firstname, lastname, username, email, image: myCloud.secure_url, address
             }, {
                 new: true,
                 runValidators: true,
                 useFindAndModify: false,
             })
             console.log("inside if statement")
-            return res.json({ updatedUser })
+            return res.json({ success: true, updatedUser })
         }
 
         const updatedUser = await User.findByIdAndUpdate(req.user._id, {
-            firstname, lastname, username, email
+            firstname, lastname, username, email, address
         }, {
             new: true,
             runValidators: true,
             useFindAndModify: false,
         })
-        res.json({ updatedUser })
+        res.json({ success: true, updatedUser })
     } catch (error) {
-        res.json({ error })
+        // res.json({ success: false, error: "Something went wrong" })
+        res.json({ success: false, error })
+
     }
 }
 module.exports = { register, login, logout, getAllUsers, resetPassword, deleteUser, updateProfile, getme };

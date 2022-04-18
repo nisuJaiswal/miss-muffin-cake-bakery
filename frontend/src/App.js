@@ -11,7 +11,7 @@ import store from './store'
 // import Navbar from "./components/Navbar";
 import Index from "./pages/Index"
 import Login from "./pages/Login"
-import Register from "./pages/Register"
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   useEffect(() => {
@@ -27,7 +27,7 @@ function App() {
           {/* <Route exact path="/" component={Index} /> */}
           <Route exact path="/" element={<Index />} />
           <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/myProfile" element={<MyProfile />} />
 
         </Routes>
 

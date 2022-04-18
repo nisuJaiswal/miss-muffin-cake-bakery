@@ -16,7 +16,11 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router"
 import { logout } from '../actions/userActions';
+// import {
 
+//     Link
+
+// } from "react-router-dom";
 const Navbar = () => {
     const dispatch = new useDispatch()
     const navigator = useNavigate()
@@ -166,7 +170,7 @@ const Navbar = () => {
                         >
 
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center">Profile</Typography>
+                                <Link to="/myProfile" textAlign="center" style={{ color: 'black', textDecoration: 'none' }} >Profile</Link>
                             </MenuItem>
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Typography textAlign="center" onClick={onLogout}>Logout</Typography>

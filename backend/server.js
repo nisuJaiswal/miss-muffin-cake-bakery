@@ -7,10 +7,10 @@ var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
 
 // Middlewares
-app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json())
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/uploads', express.static(process.cwd() + '/uploads'))
 connectDb();
