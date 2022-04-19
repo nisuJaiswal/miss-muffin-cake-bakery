@@ -169,31 +169,33 @@ export default function BasicTabs() {
                                 </Box>
                             </TabPanel>
                             <TabPanel value={value} index={1} component='div'>
-                                <form onSubmit={registrationSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px', textAlign: "center" }} />
-                                        <input type="file" name="userimage" ref={fileInput} onChange={dataChanged} accept="images/*" style={{ display: 'none' }} />
-                                        {
-                                            !isImgChanged ? (
-                                                <AddIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(-100%) translateY(180%)' }} />
-                                            ) : (
+                                <Box>
 
-                                                <EditIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(-80%) translateY(180%)' }} />
-                                            )
-                                        }
-                                    </Box>
+                                    <form onSubmit={registrationSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px', textAlign: "center" }} />
+                                            <input type="file" name="userimage" ref={fileInput} onChange={dataChanged} accept="images/*" style={{ display: 'none' }} />
+                                            {
+                                                !isImgChanged ? (
+                                                    <AddIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(-100%) translateY(180%)' }} />
+                                                ) : (
 
-                                    <TextField required value={username} name="username" label="Username" variant="standard" onChange={dataChanged} />
-                                    <TextField required value={email} name="email" label="Email" variant="standard" type='email' onChange={dataChanged} />
-                                    <TextField required value={password} name="password" label="Password" type="password" variant="standard" onChange={dataChanged} />
-                                    <TextField required value={firstname} name="firstname" label="First Name" variant="standard" onChange={dataChanged} />
-                                    <TextField required value={lastname} name="lastname" label="Last Name" variant="standard" onChange={dataChanged} />
+                                                    <EditIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(-80%) translateY(180%)' }} />
+                                                )
+                                            }
+                                        </Box>
 
-                                    <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Button type="submit" variant="contained" >REGISTER</Button>
-                                    </Box>
-                                </form>
+                                        <TextField required value={username} name="username" label="Username" variant="standard" onChange={dataChanged} />
+                                        <TextField required value={email} name="email" label="Email" variant="standard" type='email' onChange={dataChanged} />
+                                        <TextField required value={password} name="password" label="Password" type="password" variant="standard" onChange={dataChanged} />
+                                        <TextField required value={firstname} name="firstname" label="First Name" variant="standard" onChange={dataChanged} />
+                                        <TextField required value={lastname} name="lastname" label="Last Name" variant="standard" onChange={dataChanged} />
 
+                                        <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <Button type="submit" variant="contained" >REGISTER</Button>
+                                        </Box>
+                                    </form>
+                                </Box>
                             </TabPanel>
 
 
@@ -204,4 +206,5 @@ export default function BasicTabs() {
 
         </Box >
     );
+
 }
