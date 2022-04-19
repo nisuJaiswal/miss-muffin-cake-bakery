@@ -96,7 +96,7 @@ export default function BasicTabs() {
     };
     const registrationSubmit = (e) => {
         e.preventDefault();
-        // console.log("Registered")
+        // ("Registered")
         const formData = new FormData();
 
         formData.set("username", username)
@@ -105,7 +105,6 @@ export default function BasicTabs() {
         formData.set("firstname", firstname)
         formData.set("lastname", lastname)
         formData.set("userimage", avatar)
-        // console.log(formData)
         dispatch(register(formData))
 
 
@@ -127,7 +126,7 @@ export default function BasicTabs() {
         else {
             setIsError(false)
         }
-        // console.log("From Login", isAuthenticated)
+        // ("From Login", isAuthenticated)
         if (isAuthenticated) {
             history('/')
         }

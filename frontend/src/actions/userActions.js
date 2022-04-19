@@ -76,7 +76,6 @@ export const loadUser = () => async (dispatch) => {
 // FOR LOGOUT USER
 export const logout = () => async (dispatch) => {
     const { data } = await axios.get('/api/user/logout')
-    console.log("LOGOUT RESPONSE::: ", data)
     if (data.success) return dispatch({ type: LOGOUT_SUCCESS })
     dispatch({ type: LOGOUT_ERROR })
 }
@@ -87,9 +86,8 @@ export const updateProfile = (formData) => async (dispatch) => {
 
         dispatch({ type: UPDATE_PROFILE_REQ })
         const config = { headers: { "Content-Type": "multipart/form-data" } };
-        console.log(formData)
-        const { data } = await axios.put('/api/user/updateProfile', formData)
-        // if (data.error !== "") return dispatch({ type: REG_ERROR, payload: error })
+        const { data } = await axios.put('/api/user/updateProfile', formData, config)
+
         if (data.success)
             return dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success })
         dispatch({ type: UPDATE_PROFILE_ERROR, payload: data.error })

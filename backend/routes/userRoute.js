@@ -22,6 +22,6 @@ router.get('/getAllUsers', userAuth, getAllUsers)
 router.put('/resetPassword', userAuth, resetPassword)
 router.get('/deleteUser/:userId', userAuth, deleteUser)
 router.get('/getMe', userAuth, getme)
-router.put('/updateProfile', userAuth, multer().none(), updateProfile)
+router.put('/updateProfile', userAuth, upload.single('userimage'), updateProfile)
 
 module.exports = router;

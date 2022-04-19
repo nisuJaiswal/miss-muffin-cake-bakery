@@ -198,13 +198,12 @@ const updateProfile = async (req, res) => {
     try {
         const { firstname, lastname, email, username } = req.body;
         let address
-        if (req.body.address) {
+        if (req.body.address !== '') {
             address = req.body.address
         }
         else {
             address = ""
         }
-        console.log(req.body)
         if (!firstname) return res.json({ error: "Enter all details" })
         if (req.body.userimage) {
             const myCloud = await cloudinary.v2.uploader.upload(req.body.userimage, {
@@ -219,7 +218,6 @@ const updateProfile = async (req, res) => {
                 runValidators: true,
                 useFindAndModify: false,
             })
-            console.log("inside if statement")
             return res.json({ success: true, updatedUser })
         }
 
