@@ -21,7 +21,7 @@ const addItem = async (req, res) => {
 }
 
 // GET ITEMS OF LOGED IN USER -- GET
-const getAllItemsOfUser = async (req, res) => {
+const getAllOrdersOfUser = async (req, res) => {
     const allOrders = await Order.find({ userDetails: req.user._id });
     if (!allOrders) return res.json({ msg: "Your Ordres are empty" })
     res.json({ allOrders })
@@ -50,7 +50,7 @@ const addItemToDB = async (req, res) => {
 }
 
 // GET REQ --ADMIN 
-const getAllItems = async (req, res) => {
+const getAllItemsAdmin = async (req, res) => {
     if (req.user.role === 'admin') {
         const allItems = await Item.find({})
         res.json({ allItems })
@@ -73,4 +73,16 @@ const deleteItem = async (req, res) => {
         res.json({ msg: "You are not admin" })
     }
 }
-module.exports = { addItem, addItemToDB, getAllItems, deleteItem, getAllItemsOfUser };
+
+// GET ALL PRODUCTS -- USER
+const getAllProducts = async (req, res) => {
+    try {
+        const allProducts = await Item.find({})
+        res.json({ allProducts })
+    } catch (error) {
+        res.json({ error })
+    }
+
+}
+
+module.exports = { addItem, addItemToDB, getAllItemsAdmin, deleteItem, getAllOrdersOfUser, getAllProducts };

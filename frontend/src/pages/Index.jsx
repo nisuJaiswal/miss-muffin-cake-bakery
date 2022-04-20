@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CircularProgress } from "@mui/material"
 import Navbar from '../components/Navbar'
+import ProductContainer from '../components/ProductContainer'
 
 
 const Index = () => {
@@ -29,7 +30,7 @@ const Index = () => {
                         <>
                             <Navbar />
 
-                            <h1> Hello from Index 👋 </h1>
+                            <ProductContainer />
                         </>
                     )
             }

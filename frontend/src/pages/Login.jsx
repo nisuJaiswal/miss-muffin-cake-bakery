@@ -172,7 +172,7 @@ export default function BasicTabs() {
 
                                     <form onSubmit={registrationSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px', textAlign: "center" }} />
+                                            <img src={avatarPreview} alt="User" loading="lazy" style={{ width: '100px', height: '100px', borderRadius: '999px' }} sx={{ textAlign: 'center' }} />
                                             <input type="file" name="userimage" ref={fileInput} onChange={dataChanged} accept="images/*" style={{ display: 'none' }} />
                                             {
                                                 !isImgChanged ? (
