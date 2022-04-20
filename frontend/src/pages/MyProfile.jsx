@@ -50,7 +50,7 @@ const MyProfile = () => {
           (
             <>
               <Navbar />
-              <Container fluid sx={{ mt: 2 }}>
+              <Container sx={{ mt: 2 }}>
                 <Grid container display={"flex"} p={2} sx={{ gap: 3, flexDirection: { xs: 'column', md: 'row' } }}>
 
                   <Grid item flex="4" border="1px solid white" boxShadow={'4px 4px 10px gray'} display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>

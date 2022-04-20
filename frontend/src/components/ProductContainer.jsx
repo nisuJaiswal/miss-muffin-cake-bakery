@@ -23,7 +23,7 @@ const ProductContainer = () => {
                     <Box>
                         <CircularProgress color="inherit" />
                     </Box>
-                ) : (<Container fluid sx={{ marginTop: 2 }}>
+                ) : (<Container sx={{ marginTop: 2 }}>
                     <Box display={'flex'} alignItems='center' justifyContent={'space-evenly'} flexWrap={'wrap'}>
 
                         {

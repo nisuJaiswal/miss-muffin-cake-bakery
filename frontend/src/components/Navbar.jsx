@@ -110,12 +110,12 @@ const Navbar = () => {
                             }}
                         >
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">
+                                <Typography textalign="center">
                                     <Link to='/login' style={linkStyleMobile}>Cart</Link>
                                 </Typography>
                             </MenuItem>
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">
+                                <Typography textalign="center">
                                     <Link to='/register' style={linkStyleMobile}>Previous Cart</Link>
                                 </Typography>
                             </MenuItem>
@@ -168,13 +168,13 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <Link to="/myProfile" textAlign="center" style={{ color: 'black', textDecoration: 'none' }} >
+                            <Link to="/myProfile" textalign="center" style={{ color: 'black', textDecoration: 'none' }} >
                                 <MenuItem onClick={handleCloseUserMenu}>
                                     Profile
                                 </MenuItem>
                             </Link>
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center" onClick={onLogout}>Logout</Typography>
+                                <Typography textalign="center" onClick={onLogout}>Logout</Typography>
                             </MenuItem>
 
                         </Menu>

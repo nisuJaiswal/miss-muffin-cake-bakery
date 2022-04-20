@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, CircularProgress, TextField } from "@mui/material"
+import { Avatar, Button, CircularProgress, TextField } from "@mui/material"
 import Navbar from '../components/Navbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -117,22 +117,22 @@ const MyProfile = () => {
 
 
                             <form onSubmit={handleOnSubmit} encType="multipart/form-data" >
-                                <Container fluid sx={{ mt: 2 }}>
-                                    <Grid container display={"flex"} p={2} sx={{ gap: 3, flexDirection: { xs: 'column', md: 'row' } }}>
+                                <Container sx={{ mt: 2 }}>
+                                    <Grid container display={"flex"} p={2} sx={{ gap: 3, flexDirection: { xs: 'column', md: 'row' } }} borderRadius={2}>
 
                                         <Grid item flex="4" border="1px solid white" boxShadow={'4px 4px 10px gray'} display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
 
 
-                                            <img src={isImgChanged ? avatarPreview : image} alt="User" loading="lazy" style={{ width: '125px', height: '125px', borderRadius: '999px', textAlign: "center" }} />
+                                            <Avatar src={isImgChanged ? avatarPreview : image} alt="User" loading="lazy" style={{ width: '150px', height: '150px', borderRadius: '999px', textalign: "center" }} />
                                             <input type="file" name="userimage" ref={fileInput} onChange={dataChanged} accept="images/*" style={{ display: 'none' }} />
 
-                                            <EditIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(200%) translateY(-50%)' }} />
+                                            <EditIcon onClick={openFile} style={{ cursor: 'pointer', transform: 'translateX(250%) translateY(-50%)' }} />
 
 
-                                            <TextField name="username" value={username} sx={{ marginTop: 2 }} variant="standard" onChange={(e) => setUsername(e.target.value)} />
+                                            <TextField name="username" value={username} sx={{ marginBottom: 2 }} variant="standard" onChange={(e) => setUsername(e.target.value)} />
                                         </Grid>
 
-                                        <Grid item flex="8" boxShadow={'4px 4px 10px gray'} px={4} py={2}>
+                                        <Grid item flex="8" boxShadow={'4px 4px 10px gray'} sx={{ padding: { xs: 2, sm: 4 } }} borderRadius={2}>
 
                                             <Typography sx={{ fontSize: { xs: '20px', md: '25px' } }} mb={2} color={headingColor}>Edit Profile: </Typography>
 
