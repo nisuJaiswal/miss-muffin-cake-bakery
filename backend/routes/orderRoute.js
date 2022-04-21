@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { addItem, addItemToDB, getAllItemsAdmin, deleteItem, getAllOrdersOfUser, getAllProducts } = require('../controllers/orderControls');
+const { addItem, addItemToDB, getAllItemsAdmin, deleteItem, getAllOrdersOfUser, getAllProducts, getItemDetails } = require('../controllers/orderControls');
 const { userAuth } = require('../middleware/userAuth');
 
 const multer = require('multer')
@@ -22,5 +22,6 @@ router.get('/getAllItems', userAuth, getAllItemsAdmin)
 router.get('/getmyorders', userAuth, getAllOrdersOfUser)
 router.post('/:id', userAuth, addItem)
 router.delete('/:id', userAuth, deleteItem)
+router.get('/:id', userAuth, getItemDetails)
 
 module.exports = router

@@ -2,8 +2,11 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import { Link } from 'react-router-dom'
 
 import Typography from '@mui/material/Typography';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
 
 
 
@@ -29,6 +32,14 @@ export default function RecipeReviewCard({ product }) {
                 <Typography variant="h5">
                     ₹<Typography variant="h6" component={'span'}> {product.price} </Typography>
                 </Typography>
+                <Box sx={{ marginTop: 1 }}>
+
+                    <Link to={`/product/${product._id}`}>
+                        <Button variant="contained">
+                            Checkout
+                        </Button>
+                    </Link>
+                </Box>
             </CardContent>
 
 

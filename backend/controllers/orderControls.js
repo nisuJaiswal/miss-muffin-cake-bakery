@@ -82,7 +82,27 @@ const getAllProducts = async (req, res) => {
     } catch (error) {
         res.json({ error })
     }
-
 }
 
-module.exports = { addItem, addItemToDB, getAllItemsAdmin, deleteItem, getAllOrdersOfUser, getAllProducts };
+// GET SINGLE ITEM DETAILS FOR USER
+const getItemDetails = async (req, res) => {
+    try {
+
+        const { id } = req.params
+        const item = await Item.findOne({ _id: id })
+        if (item) return res.json({ item })
+        return res.json({ error: "Something went wrong" })
+    } catch (error) {
+        res.json({ error })
+    }
+}
+
+module.exports = {
+    addItem,
+    addItemToDB,
+    getAllItemsAdmin,
+    deleteItem,
+    getAllOrdersOfUser,
+    getAllProducts,
+    getItemDetails
+};

@@ -13,6 +13,7 @@ import Index from "./pages/Index"
 import Login from "./pages/Login"
 import EditProfile from "./pages/EditProfile";
 import MyProfile from "./pages/MyProfile";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   useEffect(() => {
@@ -30,6 +31,7 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/editProfile" element={<EditProfile />} />
           <Route exact path="/myProfile" element={<MyProfile />} />
+          <Route exact path="/product/:id" element={<ProductDetails />} />
         </Routes>
 
       </Router>
