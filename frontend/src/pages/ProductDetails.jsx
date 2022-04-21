@@ -1,17 +1,17 @@
 import styled from '@emotion/styled'
-import { CircularProgress } from '@mui/material'
+import { Avatar, CircularProgress, Container } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getItemDetails } from '../actions/productActions'
 import Navbar from '../components/Navbar'
 
 const ProductDetails = ({ match }) => {
     const dispatch = useDispatch()
+    const { id } = useParams()
     const { isAuthenticated } = useSelector(state => state.user)
-    const { loading } = useSelector(state => state.products)
-    const { productDetail } = useSelector(state => state.productDetail)
+    const { productDetail, loading } = useSelector(state => state.productDetail)
     const navigator = useNavigate()
     const CenterItemBox = styled(Box)({
         display: 'flex',
@@ -19,26 +19,45 @@ const ProductDetails = ({ match }) => {
         justifyContent: 'center',
         height: '90vh'
     });
+
+    const [name, setName] = useState()
+    const [description, setDescription] = useState()
+    const [price, setPrice] = useState()
+    const [image, setimage] = useState()
+
     useEffect(() => {
         if (!isAuthenticated) {
             navigator('/login')
         }
-        dispatch(getItemDetails(match.params.id))
-    }, [isAuthenticated, navigator, match.params.id, dispatch])
+        if (productDetail) {
+            const { name, description, price, image } = productDetail
+            setName(name)
+            setDescription(description)
+            setPrice(price)
+            setimage(image)
+        }
+        dispatch(getItemDetails(id))
+    }, [isAuthenticated, navigator, id, dispatch])
 
     return (
         <>
             {
                 loading ? (
                     <CenterItemBox>
-
                         <CircularProgress color="inherit" />
                     </CenterItemBox>
                 )
                     :
                     <>
                         <Navbar />
-                        <h1>{productDetail}</h1>)
+                        <Container>
+                            <Avatar
+                                variant='square'
+                                alt="Cake"
+                                src={image}
+                                sx={{ width: 150, height: 150 }}
+                            />
+                        </Container>
                     </>
             }
 
