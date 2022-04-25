@@ -2,9 +2,10 @@ import styled from '@emotion/styled'
 import { Avatar, Button, CircularProgress, Container, CssBaseline, FormControlLabel, Grid, RadioGroup, Typography } from '@mui/material'
 import { blue } from '@mui/material/colors'
 import { Box } from '@mui/system'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { addToCart } from '../actions/cartActions'
 import { getItemDetails } from '../actions/productActions'
 import Navbar from '../components/Navbar'
 
@@ -36,6 +37,8 @@ const ProductDetails = () => {
         formData.set('name', name)
         formData.set('description', description)
         formData.set('quantity', quantity)
+        formData.set('price', price)
+        dispatch(addToCart(productDetail._id))
     }
 
     useEffect(() => {
@@ -59,8 +62,8 @@ const ProductDetails = () => {
     //     console.log(setFocus)
     // }, [setFocus])
 
-    const [redBtnFocus, setRedBtnFocus] = useState(false)
-    const [purpleBtnFocus, setPurpleBtnFocus] = useState(false)
+    // const [redBtnFocus, setRedBtnFocus] = useState(false)
+    // const [purpleBtnFocus, setPurpleBtnFocus] = useState(false)
     const [blueBtnFocus, setBlueBtnFocus] = useState(true)
 
     return (
