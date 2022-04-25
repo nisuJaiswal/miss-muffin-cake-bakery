@@ -17,11 +17,13 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
                     cartItems: state.cartItems.map((i) =>
                         i.product === isItemExist.product ? item : i
                     ),
+                    added: true
                 };
             } else {
                 return {
                     ...state,
                     cartItems: [...state.cartItems, item],
+                    added: true
                 };
             }
 

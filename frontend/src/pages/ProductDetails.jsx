@@ -1,5 +1,18 @@
 import styled from '@emotion/styled'
-import { Avatar, Button, CircularProgress, Container, CssBaseline, FormControlLabel, Grid, RadioGroup, Typography } from '@mui/material'
+import {
+    Avatar,
+    Button,
+    CircularProgress,
+    Container,
+    CssBaseline,
+    FormControlLabel,
+    Grid,
+    IconButton,
+    RadioGroup,
+    Snackbar,
+    Typography
+} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close';
 import { blue } from '@mui/material/colors'
 import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
@@ -15,6 +28,7 @@ const ProductDetails = () => {
     const { id } = useParams()
     const { isAuthenticated } = useSelector(state => state.user)
     const { productDetail, loading } = useSelector(state => state.productDetail)
+    const { added } = useSelector(state => state.cart)
     const navigator = useNavigate()
     const CenterItemBox = styled(Box)({
         display: 'flex',
@@ -28,6 +42,7 @@ const ProductDetails = () => {
     const [price, setPrice] = useState()
     const [image, setimage] = useState()
     const [quantity, setQuantity] = useState('300')
+    const [open, setOpen] = useState(false)
     const headingColor = blue[900]
 
     const handleSubmit = (e) => {
@@ -41,6 +56,28 @@ const ProductDetails = () => {
         dispatch(addToCart(productDetail._id))
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+    const action = (
+        <React.Fragment>
+            <Button color="primary" size="small" onClick={handleClose}>
+                UNDO
+            </Button>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
     useEffect(() => {
         if (!isAuthenticated) {
             navigator('/login')
@@ -52,18 +89,14 @@ const ProductDetails = () => {
             setPrice(price)
             setimage(image)
         }
+        if (added) {
+            setOpen(true)
+        }
         dispatch(getItemDetails(id))
 
-    }, [isAuthenticated, navigator, id, dispatch])
+    }, [isAuthenticated, navigator, id, dispatch, added])
 
-    // const setFocus = useRef(null)
-    // useEffect(() => {
-    //     setFocus.current.focus()
-    //     console.log(setFocus)
-    // }, [setFocus])
 
-    // const [redBtnFocus, setRedBtnFocus] = useState(false)
-    // const [purpleBtnFocus, setPurpleBtnFocus] = useState(false)
     const [blueBtnFocus, setBlueBtnFocus] = useState(true)
 
     return (
@@ -168,7 +201,13 @@ const ProductDetails = () => {
                                     </Grid>
                                 </Grid>
                             </form>
-
+                            <Snackbar
+                                open={open}
+                                autoHideDuration={3000}
+                                onClose={handleClose}
+                                message="Added to Cart"
+                                action={action}
+                            />
                         </Container>
                     </>
             }
