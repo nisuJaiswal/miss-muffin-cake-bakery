@@ -77,8 +77,22 @@ const deleteItem = async (req, res) => {
 // GET ALL PRODUCTS -- USER
 const getAllProducts = async (req, res) => {
     try {
-        const allProducts = await Item.find({})
-        res.json({ allProducts })
+
+        if (req.query.search) {
+            const { search } = req.query;
+
+            // const allProducts = await Item.find({ name: { '$regex': `/${search}/`, '$options': 'i' } })
+            const allProducts = await Item.find({ "name": new RegExp('.*' + search + '.*', "i") })
+            if (allProducts.length)
+                return res.json({ allProducts })
+            return res.json({ err: "No such product" })
+        }
+
+        else {
+
+            const allProducts = await Item.find({})
+            res.json({ allProducts })
+        }
     } catch (error) {
         res.json({ error })
     }

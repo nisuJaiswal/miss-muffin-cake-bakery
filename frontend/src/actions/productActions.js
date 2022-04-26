@@ -10,16 +10,29 @@ import axios from 'axios'
 
 
 // FOR GET ALL PRODUCTS FOR USER
-export const getAllProducts = () => async (dispatch) => {
+export const getAllProducts = (search) => async (dispatch) => {
     try {
 
         dispatch({ type: GET_ALL_PRODUCTS_REQ })
-        const { data } = await axios.get('/api/order/getAllProducts')
-        if (data.allProducts) {
-            // console.log(data.allProducts)
-            return dispatch({ type: GET_ALL_PRODUCTS_SUCCESS, payload: data.allProducts })
+        if (search) {
+            const { data } = await axios.get(`/api/order/getAllProducts?search=${search}`)
+            // http://localhost:4000/api/order/getAllProducts?search=nisu
+            if (data.allProducts) {
+                // console.log(data.allProducts)
+                return dispatch({ type: GET_ALL_PRODUCTS_SUCCESS, payload: data.allProducts })
+            }
+            dispatch({ type: GET_ALL_PRODUCTS_ERROR, payload: data.error })
         }
-        dispatch({ type: GET_ALL_PRODUCTS_ERROR, payload: data.error })
+        else {
+
+            const { data } = await axios.get('/api/order/getAllProducts')
+            if (data.allProducts) {
+                // console.log(data.allProducts)
+                return dispatch({ type: GET_ALL_PRODUCTS_SUCCESS, payload: data.allProducts })
+            }
+            dispatch({ type: GET_ALL_PRODUCTS_ERROR, payload: data.error })
+        }
+
     } catch (error) {
         dispatch({ type: GET_ALL_PRODUCTS_ERROR, payload: error })
 

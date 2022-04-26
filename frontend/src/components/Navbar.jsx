@@ -1,37 +1,25 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+
+import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom'
+
+import { Avatar, Button, Container, Tooltip } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router"
 import { logout } from '../actions/userActions';
-// import {
 
-//     Link
+import SearchFeature from './SearchFeature';
 
-// } from "react-router-dom";
-const Navbar = () => {
-    const dispatch = new useDispatch()
-    const navigator = useNavigate()
-    const { isAuthenticated, user } = useSelector(state => state.user)
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [userAvatar, setUserAvatar] = useState('')
+export default function Navbar() {
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -43,6 +31,17 @@ const Navbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const onLogout = () => {
+        dispatch(logout())
+    }
+
+    const dispatch = new useDispatch()
+    const navigator = useNavigate()
+    const { isAuthenticated, user } = useSelector(state => state.user)
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [userAvatar, setUserAvatar] = useState('')
+
     const linkStyle = {
         textDecoration: 'none',
         color: 'white'
@@ -51,9 +50,14 @@ const Navbar = () => {
         textDecoration: 'none',
         color: 'black'
     }
-    const onLogout = () => {
-        dispatch(logout())
-    }
+
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+
+
 
     useEffect(() => {
         if (user) {
@@ -65,124 +69,125 @@ const Navbar = () => {
 
     }, [isAuthenticated, navigator, user])
 
-
-
     return (
-        <AppBar position="static" style={{ backgroundColor: "orange" }}>
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        <Link to="/" style={linkStyle}>MissMuffin</Link>
-                    </Typography>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static">
+                <Container maxWidth="xl">
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
+                    <Toolbar disableGutters>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                         >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textalign="center">
-                                    <Link to='/login' style={linkStyleMobile}>Cart</Link>
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textalign="center">
-                                    <Link to='/register' style={linkStyleMobile}>Previous Cart</Link>
-                                </Typography>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                    >
-                        <Link to="/" style={linkStyle}>MissMuffin</Link>
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            <Link to="/" style={linkStyle}>MissMuffin</Link>
 
-                        <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            <Link to="/login" style={linkStyle}>Cart</Link>
-                        </Button>
-                        <Button
+                        </Typography>
 
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            <Link to="/register" style={linkStyle}>Previous Cart</Link>
-                        </Button>
-                    </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="User" sx={{ width: 50, height: 50 }} src={userAvatar} />
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
                             </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <Link to="/myProfile" textalign="center" style={{ color: 'black', textDecoration: 'none' }} >
-                                <MenuItem onClick={handleCloseUserMenu}>
-                                    Profile
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textalign="center">
+                                        <Link to='/login' style={linkStyleMobile}>Cart</Link>
+                                    </Typography>
                                 </MenuItem>
-                            </Link>
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textalign="center" onClick={onLogout}>Logout</Typography>
-                            </MenuItem>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textalign="center">
+                                        <Link to='/register' style={linkStyleMobile}>Previous Cart</Link>
+                                    </Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
 
-                        </Menu>
-                    </Box>
 
-                </Toolbar>
-            </Container>
-        </AppBar>
+
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                <Link to="/login" style={linkStyle}>Cart</Link>
+                            </Button>
+                            <Button
+
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                <Link to="/register" style={linkStyle}>Previous Cart</Link>
+                            </Button>
+                        </Box>
+
+                        {/* SEARCH FUNCTION */}
+                        <SearchFeature />
+
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="User" sx={{ width: 50, height: 50 }} src={userAvatar} />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <Link to="/myProfile" textalign="center" style={{ color: 'black', textDecoration: 'none' }} >
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        Profile
+                                    </MenuItem>
+                                </Link>
+                                <MenuItem onClick={handleCloseUserMenu}>
+                                    <Typography textalign="center" onClick={onLogout}>Logout</Typography>
+                                </MenuItem>
+
+                            </Menu>
+                        </Box>
+
+                    </Toolbar>
+                </Container>
+            </AppBar>
+            {/* {renderMobileMenu} */}
+            {/* {renderMenu} */}
+        </Box>
     );
-};
-export default Navbar;
+}
