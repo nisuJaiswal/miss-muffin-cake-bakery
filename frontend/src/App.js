@@ -14,6 +14,7 @@ import Login from "./pages/Login"
 import EditProfile from "./pages/EditProfile";
 import MyProfile from "./pages/MyProfile";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,8 @@ function App() {
           <Route exact path="/editProfile" element={<EditProfile />} />
           <Route exact path="/myProfile" element={<MyProfile />} />
           <Route exact path="/product/:id" element={<ProductDetails />} />
+          <Route exact path="/cart" element={<Cart />} />
+
         </Routes>
 
       </Router>

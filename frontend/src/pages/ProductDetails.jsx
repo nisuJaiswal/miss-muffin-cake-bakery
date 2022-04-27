@@ -47,13 +47,13 @@ const ProductDetails = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('submited')
         const formData = new FormData();
         formData.set('name', name)
         formData.set('description', description)
         formData.set('quantity', quantity)
         formData.set('price', price)
         dispatch(addToCart(productDetail._id))
+        setOpen(true)
     }
 
     const handleClose = (event, reason) => {
@@ -65,9 +65,7 @@ const ProductDetails = () => {
     };
     const action = (
         <React.Fragment>
-            <Button color="primary" size="small" onClick={handleClose}>
-                UNDO
-            </Button>
+
             <IconButton
                 size="small"
                 aria-label="close"
@@ -82,6 +80,16 @@ const ProductDetails = () => {
         if (!isAuthenticated) {
             navigator('/login')
         }
+
+
+    }, [isAuthenticated, navigator, id, dispatch])
+
+    useEffect(() => {
+        dispatch(getItemDetails(id))
+        setOpen(false)
+    }, [])
+
+    useEffect(() => {
         if (productDetail) {
             const { name, description, price, image } = productDetail
             setName(name)
@@ -89,12 +97,8 @@ const ProductDetails = () => {
             setPrice(price)
             setimage(image)
         }
-        if (added) {
-            setOpen(true)
-        }
-        dispatch(getItemDetails(id))
+    }, [productDetail])
 
-    }, [isAuthenticated, navigator, id, dispatch, added])
 
 
     const [blueBtnFocus, setBlueBtnFocus] = useState(true)
@@ -120,7 +124,7 @@ const ProductDetails = () => {
                                 <CssBaseline />
                                 <Grid container flex="4" display="flex" justifyContent="center" sx={{ flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
                                     <Grid item sx={{ flex: .4, display: 'flex', justifyContent: 'center' }}>
-                                        <Avatar src={image} variant='square' sx={{ width: 350, height: 350 }} />
+                                        <Avatar src={image} variant='square' sx={{ width: 300, height: 300 }} />
                                     </Grid>
 
                                     <Grid item display='flex' flex="6" sx={{ gap: 1, flex: .8, flexDirection: 'column' }}>
@@ -203,7 +207,7 @@ const ProductDetails = () => {
                             </form>
                             <Snackbar
                                 open={open}
-                                autoHideDuration={3000}
+                                autoHideDuration={2000}
                                 onClose={handleClose}
                                 message="Added to Cart"
                                 action={action}

@@ -115,9 +115,11 @@ export default function Navbar() {
                                 }}
                             >
                                 <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textalign="center">
-                                        <Link to='/login' style={linkStyleMobile}>Cart</Link>
-                                    </Typography>
+                                    <Link to='/cart' style={linkStyleMobile}>
+                                        <Typography textalign="center">
+                                            Cart
+                                        </Typography>
+                                    </Link>
                                 </MenuItem>
                                 <MenuItem onClick={handleCloseNavMenu}>
                                     <Typography textalign="center">
@@ -131,12 +133,16 @@ export default function Navbar() {
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                <Link to="/login" style={linkStyle}>Cart</Link>
-                            </Button>
+
+                            <Link to="/cart" style={linkStyle}>
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    Cart
+                                </Button>
+
+                            </Link>
                             <Button
 
                                 onClick={handleCloseNavMenu}
@@ -152,7 +158,7 @@ export default function Navbar() {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="User" sx={{ width: 50, height: 50 }} src={userAvatar} />
+                                    <Avatar alt="User" sx={{ marginLeft: 2, width: { xs: 40, md: 50 }, height: { xs: 40, md: 50 } }} src={userAvatar} />
                                 </IconButton>
                             </Tooltip>
                             <Menu
